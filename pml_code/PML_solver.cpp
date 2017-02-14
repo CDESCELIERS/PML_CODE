@@ -969,7 +969,7 @@ void PML_solver::set_matrix_system()
             M_K_dyn =   dcomplex(1,0) * ( M_Kglob - (omega * omega) * M_Mglob )
             + dcomplex(0,1) * ( omega * M_Dglob  -1.f/omega * M_Hglob );
             
-            V_F_pml_complex =  M_Ind1.transpose() * V_F ;
+            V_F_pml_complex =  dcomplex(1,0) * M_Ind1.transpose() * V_F ;
         }
         else
         {
