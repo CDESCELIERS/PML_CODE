@@ -3,5 +3,6 @@
 g++ -std=c++11 -I/usr/include/eigen3 \
 	           -I/usr/include/suitesparse \
 			   -I sources -lumfpack  -fopenmp -lconfig++ -O3 \
-			   sources/FEM_problem.cpp sources/PML_solver.cpp sources/tools.cpp \
-			   sources/Tokenizer.cpp sources/pml_code.cpp -o PML_code
+                sources/Tokenizer.cpp sources/tools.cpp sources/PML_solver.cpp \
+                sources/FEM_problem.cpp sources/umfpack_wrapper.cpp \
+                sources/pml_code.cpp  -o pmlcode

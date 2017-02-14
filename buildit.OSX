@@ -7,4 +7,6 @@
 					    -I sources \
                                             -L/usr/local/opt/llvm/lib -L//usr/local/Cellar/libconfig/1.6/lib \
                                             -fopenmp -lconfig++ -lumfpack -O3  \
-                                             sources/Tokenizer.cpp sources/tools.cpp sources/PML_solver.cpp sources/FEM_problem.cpp sources/pml_code.cpp -o pmlcode
+                                             sources/Tokenizer.cpp sources/tools.cpp sources/PML_solver.cpp \
+                                             sources/FEM_problem.cpp sources/umfpack_wrapper.cpp \
+                                             sources/pml_code.cpp  -o pmlcode
