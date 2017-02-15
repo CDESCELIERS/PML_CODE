@@ -26,7 +26,7 @@ using namespace FEM;
 
 
 
-void FEM::save_sp2matlab(SP_mat &MAT, string filename)
+void FEM::save_sp2ascii(SP_mat &MAT, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -37,7 +37,7 @@ void FEM::save_sp2matlab(SP_mat &MAT, string filename)
     fid.close();
 }
 
-void FEM::save_sp2matlab(SP_mat_complex &MAT, string filename)
+void FEM::save_sp2ascii(SP_mat_complex &MAT, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -48,7 +48,7 @@ void FEM::save_sp2matlab(SP_mat_complex &MAT, string filename)
     fid.close();
 }
 
-void FEM::save_vec2matlab(VectorXcd &VEC, string filename)
+void FEM::save_vec2ascii(VectorXcd &VEC, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -58,7 +58,7 @@ void FEM::save_vec2matlab(VectorXcd &VEC, string filename)
     fid.close();
 }
 
-void FEM::save_vec2matlab(VectorXd &VEC, string filename)
+void FEM::save_vec2ascii(VectorXd &VEC, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -66,6 +66,41 @@ void FEM::save_vec2matlab(VectorXd &VEC, string filename)
     for (int k=0; k<VEC.size(); ++k)
         fid<< VEC(k) << endl ;
     fid.close();
+}
+
+void FEM::save_mat2ascii(Matrix<unsigned,Dynamic,7> &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.rows(); ++k)
+    {
+        for(int j=0; j<MAT.cols();++k)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+void FEM::save_mat2ascii(Matrix<double,2, Dynamic> &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.rows(); ++k)
+    {
+        for(int j=0; j<MAT.cols();++k)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+
+void FEM::save_int2ascii(int value, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " 1 non zero" << endl;
+    fid<< value <<  endl;    fid.close();
 }
 
 string PML_solver::get_mshfile()
@@ -1009,10 +1044,17 @@ void PML_solver::set_matrix_system()
             
             if (settings.debug & DEBUG_PRINT_GLOBAL_MATRICES)
             {
-                save_sp2matlab(M_K_dyn, "matlab/DATA_K_dyn.ascii");
-                save_sp2matlab(M_DDL_U, "matlab/DATA_M_DDL_U.ascii");
-                save_sp2matlab(M_DDL_E, "matlab/DATA_M_DDL_E.ascii");
-                save_vec2matlab(V_F_pml_complex, "matlab/DATA_V_F_pml_complex.ascii");
+                save_sp2ascii(M_K_dyn, "matlab/DATA_K_dyn.ascii");
+                save_sp2ascii(M_DDL_U, "matlab/DATA_M_DDL_U.ascii");
+                save_sp2ascii(M_DDL_E, "matlab/DATA_M_DDL_E.ascii");
+                
+                save_vec2ascii(V_F_pml_complex, "matlab/DATA_V_F_pml_complex.ascii");
+                
+                save_mat2ascii(  Table_Noeuds, "matlab/Table_Noeuds.ascii");
+                save_mat2ascii(Table_Elements, "matlab/Table_Elements.ascii");
+                
+                save_int2ascii(num_ddl_u, "matlab/num_ddl_u.ascii");
+                save_int2ascii(num_ddl_E, "matlab/num_ddl_E.ascii");
             }
                 
         }

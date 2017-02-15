@@ -14,6 +14,7 @@
 		BE55E9D71E4B37D500EB5E1D /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE55E9D11E4B37D500EB5E1D /* Tokenizer.cpp */; };
 		BEC684281E51E31300241AB7 /* umfpack_wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC684261E51E31300241AB7 /* umfpack_wrapper.cpp */; };
 		BEC6842A1E52399700241AB7 /* FEM_type.hpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC684291E52399700241AB7 /* FEM_type.hpp */; };
+		BEC6842D1E54AF1600241AB7 /* debug_1.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6842C1E54AF1600241AB7 /* debug_1.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,10 +46,10 @@
 		BE55E9E21E4B3D4A00EB5E1D /* sources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sources; sourceTree = "<group>"; };
 		BE55E9E31E4B50E700EB5E1D /* buildit.LINUX */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildit.LINUX; sourceTree = "<group>"; };
 		BEC684241E5112BD00241AB7 /* pml_code */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pml_code; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEC684251E5114F600241AB7 /* avi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = avi; sourceTree = "<group>"; };
 		BEC684261E51E31300241AB7 /* umfpack_wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = umfpack_wrapper.cpp; sourceTree = "<group>"; };
 		BEC684271E51E31300241AB7 /* umfpack_wrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = umfpack_wrapper.hpp; sourceTree = "<group>"; };
 		BEC684291E52399700241AB7 /* FEM_type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FEM_type.hpp; sourceTree = "<group>"; };
+		BEC6842C1E54AF1600241AB7 /* debug_1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = debug_1.m; path = matlab/debug_1.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,15 +110,31 @@
 		BE55E9DB1E4B399900EB5E1D /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				BEC684251E5114F600241AB7 /* avi */,
-				BE55E9E31E4B50E700EB5E1D /* buildit.LINUX */,
-				BE55E9DF1E4B39F200EB5E1D /* buildit.OSX */,
+				BEC6842F1E54AF3B00241AB7 /* Script */,
+				BEC6842E1E54AF1D00241AB7 /* matlab */,
 				BE55E9E21E4B3D4A00EB5E1D /* sources */,
 				BE55E9E01E4B39FC00EB5E1D /* vtk */,
 				BE55E9DE1E4B39E700EB5E1D /* confs */,
 				BE55E9DD1E4B39D800EB5E1D /* gmsh */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		BEC6842E1E54AF1D00241AB7 /* matlab */ = {
+			isa = PBXGroup;
+			children = (
+				BEC6842C1E54AF1600241AB7 /* debug_1.m */,
+			);
+			name = matlab;
+			sourceTree = "<group>";
+		};
+		BEC6842F1E54AF3B00241AB7 /* Script */ = {
+			isa = PBXGroup;
+			children = (
+				BE55E9E31E4B50E700EB5E1D /* buildit.LINUX */,
+				BE55E9DF1E4B39F200EB5E1D /* buildit.OSX */,
+			);
+			name = Script;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +198,7 @@
 				BE55E9D51E4B37D500EB5E1D /* pml_code.cpp in Sources */,
 				BE55E9D41E4B37D500EB5E1D /* PML_solver.cpp in Sources */,
 				BE55E9D31E4B37D500EB5E1D /* FEM_problem.cpp in Sources */,
+				BEC6842D1E54AF1600241AB7 /* debug_1.m in Sources */,
 				BE55E9D61E4B37D500EB5E1D /* tools.cpp in Sources */,
 				BEC6842A1E52399700241AB7 /* FEM_type.hpp in Sources */,
 				BE55E9D71E4B37D500EB5E1D /* Tokenizer.cpp in Sources */,
