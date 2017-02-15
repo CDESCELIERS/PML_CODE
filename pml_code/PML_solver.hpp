@@ -19,12 +19,15 @@ using namespace Eigen;
 
 namespace FEM
 {
+    static const int DEBUG_PRINT_GLOBAL_MATRICES = 1;
     static const int RANDOM = 1;
     static const int DETERMINIST = 0;
     
     
-    void save_sp2matlab_complex(SP_mat_complex &MAT, string filename);
+    void save_sp2matlab(SP_mat_complex &MAT, string filename);
     void save_sp2matlab(SP_mat &MAT, string filename);
+    void save_vec2matlab(VectorXcd &VEC, string filename);
+    void save_vec2matlab(VectorXd  &VEC, string filename);
     
     struct config_settings {
         unsigned Icase ;
@@ -41,6 +44,7 @@ namespace FEM
         double x_pml;
         int problem_type;
         long Nsamples;
+        int debug;
     } ;
     
     class PML_solver {
@@ -48,6 +52,8 @@ namespace FEM
     private:
         
         config_settings settings;
+        
+        int debug;
         
         double x_mid;
         double ytop;
@@ -70,6 +76,7 @@ namespace FEM
         int      num_ddl_u;
         int      num_ddl_E;
         SP_mat   M_DDL_U;
+        SP_mat   M_DDL_E;
         SP_mat   M_Ind1;
         SP_mat   M_Ind2;
         
@@ -115,6 +122,8 @@ namespace FEM
         void save_vtk_random();   // TO DO
         
     public:
+        
+        PML_solver();
         
         void set_settings(config_settings settings);
         int read_mesh();

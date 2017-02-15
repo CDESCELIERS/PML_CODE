@@ -194,7 +194,19 @@ int FEM_problem::read_cfg(string CONFIG_FILE)
         cout << endl <<"Wrong type for 'Nsamples'" << endl << endl;
         return -1;
     }
-    
+
+    try {
+        int val = cfg.lookup("DEBUG");
+        settings.debug = val;
+    }
+    catch(const SettingNotFoundException &nfex) {
+        cout << endl <<"Value of 'mshfile' is Nsamples" << endl << endl;
+        return -1;
+    }
+    catch(const SettingTypeException &nfex) {
+        cout << endl <<"Wrong type for 'Nsamples'" << endl << endl;
+        return -1;
+    }
     const Setting& root = cfg.getRoot();
     
     try

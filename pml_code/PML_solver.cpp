@@ -37,6 +37,37 @@ void FEM::save_sp2matlab(SP_mat &MAT, string filename)
     fid.close();
 }
 
+void FEM::save_sp2matlab(SP_mat_complex &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.outerSize(); ++k)
+        for (SP_mat_complex::InnerIterator it(MAT,k); it; ++it)
+            fid<< it.value().real() << " " <<  it.value().imag() << " " << it.row()+1 << " " << it.col()+1<< endl;
+    fid.close();
+}
+
+void FEM::save_vec2matlab(VectorXcd &VEC, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << VEC.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<VEC.size(); ++k)
+        fid<< VEC(k).real() << " " <<  VEC(k).imag() << endl ;
+    fid.close();
+}
+
+void FEM::save_vec2matlab(VectorXd &VEC, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << VEC.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<VEC.size(); ++k)
+        fid<< VEC(k) << endl ;
+    fid.close();
+}
+
 string PML_solver::get_mshfile()
 {
     return settings.msh_file;
@@ -45,6 +76,11 @@ string PML_solver::get_mshfile()
 void PML_solver::set_settings(config_settings new_settings)
 {
     settings = new_settings;
+}
+
+PML_solver::PML_solver()
+{
+    debug = 0;
 }
 
 int PML_solver::read_mesh()
@@ -814,7 +850,7 @@ void PML_solver::sub_fixed_dof()
     M_DDL_U.resize(2*Nn ,num_ddl_u);
     M_DDL_U.setFromTriplets(T_IDDL_U.begin(), T_IDDL_U.end());
     
-    SP_mat M_DDL_E(3*Nn ,num_ddl_E);
+    SP_mat resize(3*Nn ,num_ddl_E);
     M_DDL_E.setFromTriplets(T_IDDL_E.begin(), T_IDDL_E.end());
     
     M_K2 = (M_DDL_U.transpose() * M_K2 * M_DDL_U).eval();
@@ -970,6 +1006,15 @@ void PML_solver::set_matrix_system()
             + dcomplex(0,1) * ( omega * M_Dglob  -1.f/omega * M_Hglob );
             
             V_F_pml_complex =  dcomplex(1,0) * M_Ind1.transpose() * V_F ;
+            
+            if (settings.debug & DEBUG_PRINT_GLOBAL_MATRICES)
+            {
+                save_sp2matlab(M_K_dyn, "matlab/DATA_K_dyn.ascii");
+                save_sp2matlab(M_DDL_U, "matlab/DATA_M_DDL_U.ascii");
+                save_sp2matlab(M_DDL_E, "matlab/DATA_M_DDL_E.ascii");
+                save_vec2matlab(V_F_pml_complex, "matlab/DATA_V_F_pml_complex.ascii");
+            }
+                
         }
         else
         {
