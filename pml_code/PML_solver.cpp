@@ -885,7 +885,7 @@ void PML_solver::sub_fixed_dof()
     M_DDL_U.resize(2*Nn ,num_ddl_u);
     M_DDL_U.setFromTriplets(T_IDDL_U.begin(), T_IDDL_U.end());
     
-    SP_mat resize(3*Nn ,num_ddl_E);
+    M_DDL_E.resize(3*Nn ,num_ddl_E);
     M_DDL_E.setFromTriplets(T_IDDL_E.begin(), T_IDDL_E.end());
     
     M_K2 = (M_DDL_U.transpose() * M_K2 * M_DDL_U).eval();
