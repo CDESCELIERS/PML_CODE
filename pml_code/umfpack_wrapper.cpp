@@ -8,6 +8,7 @@
 
 #include "umfpack_wrapper.hpp"
 #include "umfpack.h"
+#include <iostream>
 
 using namespace std;
 using namespace Eigen;
@@ -60,10 +61,20 @@ umfpack_wrapper::umfpack_wrapper(SP_mat_complex &MAT)
                                   InnerIndices,
                                   Values_x, Values_y, &Symbolic, NULL, NULL );
     
+    if (status != UMFPACK_OK)
+    {
+        std::cout << "Error with umfpack_zl_symbolic" << endl;
+        std::cout << "Status code is " << status << endl;
+    }
     status = umfpack_zl_numeric (OuterStart, InnerIndices, Values_x, Values_y, Symbolic, &Numeric, NULL, NULL );
     
-    umfpack_zl_free_symbolic ( &Symbolic );
+    if (status != UMFPACK_OK)
+    {
+        std::cout << "Error with umfpack_zl_numeric" << endl;
+        std::cout << "Status code is " << status << endl;
+    }
     
+    umfpack_zl_free_symbolic ( &Symbolic );
 }
 
 umfpack_wrapper::umfpack_wrapper(SP_mat &MAT)
@@ -99,8 +110,18 @@ umfpack_wrapper::umfpack_wrapper(SP_mat &MAT)
     status = umfpack_dl_symbolic ( n_rows, n_cols, OuterStart,
                                   InnerIndices,
                                   Values_x, &Symbolic, NULL, NULL );
+    if (status != UMFPACK_OK)
+    {
+        std::cout << "Error with umfpack_dl_symbolic" << endl;
+        std::cout << "Status code is " << status << endl;
+    }
     
     status = umfpack_dl_numeric (OuterStart, InnerIndices, Values_x, Symbolic, &Numeric, NULL, NULL );
+    if (status != UMFPACK_OK)
+    {
+        std::cout << "Error with umfpack_dl_numeric" << endl;
+        std::cout << "Status code is " << status << endl;
+    }
     
     umfpack_dl_free_symbolic ( &Symbolic );
     
@@ -124,15 +145,21 @@ Eigen::VectorXcd umfpack_wrapper::solve(Eigen::VectorXcd &F)
     status = umfpack_zl_solve ( UMFPACK_A, OuterStart, InnerIndices, Values_x, Values_y,
                                x, y, b_x, b_y, Numeric, NULL, NULL );
     
-    delete[] b_x;
-    delete[] b_y;
-    delete[] x;
-    delete[] y;
-
+    if (status != UMFPACK_OK)
+    {
+        std::cout << "Error with umfpack_zl_solve" << endl;
+        std::cout << "Status code is " << status << endl;
+    }
+    
     VectorXcd U =  VectorXcd::Zero(n_rows,1);
     
     for (int k=0; k<n_rows; ++k)
         U(k) = x[k] + dcomplex(0,1)*y[k];
+    
+    delete[] b_x;
+    delete[] b_y;
+    delete[] x;
+    delete[] y;
     
     return U;
 }
@@ -140,29 +167,32 @@ Eigen::VectorXcd umfpack_wrapper::solve(Eigen::VectorXcd &F)
 Eigen::VectorXd umfpack_wrapper::solve(Eigen::VectorXd &F)
 {
     double * b_x   = new double[n_rows];
-    double * b_y   = new double[n_rows];
+    double * b_y   = new double[1];
     
     for (int k=0; k<n_rows; ++k)
-    {
         b_x[k] = real(F(k));
-        b_y[k] = imag(F(k));
-    }
+    
     double * x = new double[n_rows];
-    double * y = new double[n_rows];
+    double * y = new double[1];
     long status;
     
-    status = umfpack_zl_solve ( UMFPACK_A, OuterStart, InnerIndices, Values_x, Values_y,
-                               x, y, b_x, b_y, Numeric, NULL, NULL );
-    
-    delete[] b_x;
-    delete[] b_y;
-    delete[] x;
-    delete[] y;
+    status = umfpack_dl_solve ( UMFPACK_A, OuterStart, InnerIndices, Values_x,
+                                x, b_x, Numeric, NULL, NULL );
+    if (status != UMFPACK_OK)
+    {
+        std::cout << "Error with umfpack_zl_solve" << endl;
+        std::cout << "Status code is " << status << endl;
+    }
     
     VectorXd U =  VectorXd::Zero(n_rows,1);
     
     for (int k=0; k<n_rows; ++k)
         U(k) = x[k];
+    
+    delete[] b_x;
+    delete[] b_y;
+    delete[] x;
+    delete[] y;
     
     return U;
 }
