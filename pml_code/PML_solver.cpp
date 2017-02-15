@@ -75,7 +75,7 @@ void FEM::save_mat2ascii(Matrix<unsigned,Dynamic,7> &MAT, string filename)
     cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
     for (int k=0; k<MAT.rows(); ++k)
     {
-        for(int j=0; j<MAT.cols();++k)
+        for(int j=0; j<MAT.cols();++j)
             fid<< MAT(k,j) << " " ;
         fid << endl;
     }
@@ -88,7 +88,7 @@ void FEM::save_mat2ascii(Matrix<double,2, Dynamic> &MAT, string filename)
     cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
     for (int k=0; k<MAT.rows(); ++k)
     {
-        for(int j=0; j<MAT.cols();++k)
+        for(int j=0; j<MAT.cols();++j)
             fid<< MAT(k,j) << " " ;
         fid << endl;
     }
