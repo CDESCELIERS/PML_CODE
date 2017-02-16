@@ -14,7 +14,6 @@
 		BE55E9D71E4B37D500EB5E1D /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE55E9D11E4B37D500EB5E1D /* Tokenizer.cpp */; };
 		BEC684281E51E31300241AB7 /* umfpack_wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC684261E51E31300241AB7 /* umfpack_wrapper.cpp */; };
 		BEC6842A1E52399700241AB7 /* FEM_type.hpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC684291E52399700241AB7 /* FEM_type.hpp */; };
-		BEC6842D1E54AF1600241AB7 /* debug_1.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6842C1E54AF1600241AB7 /* debug_1.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -131,8 +130,8 @@
 		BEC6842F1E54AF3B00241AB7 /* Script */ = {
 			isa = PBXGroup;
 			children = (
-				BE55E9E31E4B50E700EB5E1D /* buildit.LINUX */,
 				BE55E9DF1E4B39F200EB5E1D /* buildit.OSX */,
+				BE55E9E31E4B50E700EB5E1D /* buildit.LINUX */,
 			);
 			name = Script;
 			sourceTree = "<group>";
@@ -198,7 +197,6 @@
 				BE55E9D51E4B37D500EB5E1D /* pml_code.cpp in Sources */,
 				BE55E9D41E4B37D500EB5E1D /* PML_solver.cpp in Sources */,
 				BE55E9D31E4B37D500EB5E1D /* FEM_problem.cpp in Sources */,
-				BEC6842D1E54AF1600241AB7 /* debug_1.m in Sources */,
 				BE55E9D61E4B37D500EB5E1D /* tools.cpp in Sources */,
 				BEC6842A1E52399700241AB7 /* FEM_type.hpp in Sources */,
 				BE55E9D71E4B37D500EB5E1D /* Tokenizer.cpp in Sources */,
