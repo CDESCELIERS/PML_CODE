@@ -22,11 +22,18 @@ namespace FEM
 {
     static const int RANDOM = 1;
     static const int DETERMINIST = 0;
+    static const int DEBUG_PRINT_GLOBAL_MATRICES = 1;
     
     typedef std::map<uword, arma::vec> Materials;
     
-    void save_sp2matlab_complex(sp_cx_mat &MAT, string filename);
-    void save_sp2matlab(sp_cx_mat &MAT, string filename);
+    void save_sp2ascii(sp_mat &MAT, string filename);
+    void save_sp2ascii(sp_cx_mat &MAT, string filename);
+    void save_vec2ascii(cx_vec &VEC, string filename);
+    void save_vec2ascii(vec &VEC, string filename);
+    void save_mat2ascii(umat &MAT, string filename);
+    void save_mat2ascii(mat &MAT, string filename);
+    void save_int2ascii(sword value, string filename);
+
     
     struct config_settings {
         uword Icase ;
@@ -43,6 +50,7 @@ namespace FEM
         double x_pml;
         int problem_type;
         long Nsamples;
+        uword debug;
     } ;
     
     class PML_solver {
@@ -72,6 +80,7 @@ namespace FEM
         int      num_ddl_u;
         int      num_ddl_E;
         sp_mat   M_DDL_U;
+        sp_mat   M_DDL_E;
         sp_mat   M_Ind1;
         sp_mat   M_Ind2;
         

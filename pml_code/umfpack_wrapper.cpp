@@ -63,14 +63,14 @@ umfpack_wrapper::umfpack_wrapper(sp_cx_mat &MAT)
     
     if (status != UMFPACK_OK)
     {
-        std::cout << "Error with umfpack_zl_symbolic" << endl;
+        std::cout << endl << "Error with umfpack_zl_symbolic" << endl;
         std::cout << "Status code is " << status << endl;
     }
     status = umfpack_zl_numeric (OuterStart, InnerIndices, Values_x, Values_y, Symbolic, &Numeric, NULL, NULL );
     
     if (status != UMFPACK_OK)
     {
-        std::cout << "Error with umfpack_zl_numeric" << endl;
+        std::cout << endl << "Error with umfpack_zl_numeric" << endl;
         std::cout << "Status code is " << status << endl;
     }
     
@@ -113,14 +113,14 @@ umfpack_wrapper::umfpack_wrapper(sp_mat &MAT)
                                   Values_x, &Symbolic, NULL, NULL );
     if (status != UMFPACK_OK)
     {
-        std::cout << "Error with umfpack_dl_symbolic" << endl;
+        std::cout << endl <<"Error with umfpack_dl_symbolic" << endl;
         std::cout << "Status code is " << status << endl;
     }
     
     status = umfpack_dl_numeric (OuterStart, InnerIndices, Values_x, Symbolic, &Numeric, NULL, NULL );
     if (status != UMFPACK_OK)
     {
-        std::cout << "Error with umfpack_dl_numeric" << endl;
+        std::cout << endl << "Error with umfpack_dl_numeric" << endl;
         std::cout << "Status code is " << status << endl;
     }
     
@@ -148,7 +148,7 @@ cx_vec umfpack_wrapper::solve(cx_vec &F)
     
     if (status != UMFPACK_OK)
     {
-        std::cout << "Error with umfpack_zl_solve" << endl;
+        std::cout << endl << "Error with umfpack_zl_solve" << endl;
         std::cout << "Status code is " << status << endl;
     }
     

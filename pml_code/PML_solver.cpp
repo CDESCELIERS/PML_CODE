@@ -24,17 +24,81 @@ using namespace FEM;
  
  --------------------------- */
 
+void FEM::save_sp2ascii(sp_mat &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.n_nonzero << " entries" << endl;
+    for (sp_mat::const_iterator it = MAT.begin(); it != MAT.end() ;it++)
+        fid<< *it << " " <<  it.row()+1 << " " << it.col()+1<< endl;
+    fid.close();
+}
 
-
-void FEM::save_sp2matlab(sp_cx_mat &MAT, string filename)
+void FEM::save_sp2ascii(sp_cx_mat &MAT, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
     cout << filename << " " << MAT.n_nonzero << " entries" << endl;
     for (sp_cx_mat::const_iterator it = MAT.begin(); it != MAT.end() ;it++)
-            fid<< *it << " " <<  it.row()+1 << " " << it.col()+1<< endl;
+        fid<< real((*it)) << " " << imag((*it))<< " " <<  it.row()+1 << " " << it.col()+1<< endl;
     fid.close();
 }
+
+void FEM::save_vec2ascii(cx_vec &VEC, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << VEC.n_elem <<  " elements" << endl;
+    for (int k=0; k<VEC.n_elem; ++k)
+        fid<< real(VEC(k)) << " " <<  imag(VEC(k)) << endl ;
+    fid.close();
+}
+
+void FEM::save_vec2ascii(vec &VEC, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << VEC.n_elem <<  " elements" << endl;
+    for (int k=0; k<VEC.n_elem; ++k)
+        fid<< VEC(k) << endl ;
+    fid.close();
+}
+
+void FEM::save_mat2ascii(umat &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.n_elem <<  " entries" << endl;
+    for (int k=0; k<MAT.n_rows; ++k)
+    {
+        for(int j=0; j<MAT.n_cols;++j)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+void FEM::save_mat2ascii(mat &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.n_elem <<  " entries" << endl;
+    for (int k=0; k<MAT.n_rows; ++k)
+    {
+        for(int j=0; j<MAT.n_cols;++j)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+
+void FEM::save_int2ascii(sword value, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " 1 non zero" << endl;
+    fid<< value <<  endl;    fid.close();
+}
+
 
 string PML_solver::get_mshfile()
 {
@@ -234,8 +298,8 @@ int PML_solver::sub_element_T6()
     
     rowvec Liste_gammap = { P2, P2, P2, P1, P1, P1 } ;
     
-    mat M_I2 = eye(2,2);
-    mat M_I3 = eye(3,3);
+    mat M_I2 = eye<mat>(2,2);
+    mat M_I3 = eye<mat>(3,3);
     M_I3(2,2) = sqrt(2);
     
     double s2 = sqrt(2)/2.f;
@@ -261,7 +325,7 @@ int PML_solver::sub_element_T6()
     
     vec V(6), V_coeff ;
     
-    V = zeros(6);
+    V.zeros();
     V(0) = 1;
     V_coeff = arma::solve(C_coeff, V);
     
@@ -272,7 +336,7 @@ int PML_solver::sub_element_T6()
     double e1 = V_coeff(4);
     double f1 = V_coeff(5);
     
-    V.zeros(6);
+    V.zeros();
     V(1) = 1;
     V_coeff = arma::solve(C_coeff, V);
     
@@ -283,7 +347,7 @@ int PML_solver::sub_element_T6()
     double e2 = V_coeff(4);
     double f2 = V_coeff(5);
     
-    V.zeros(6);
+    V.zeros();
     V(2) = 1;
     V_coeff = arma::solve(C_coeff, V);
     
@@ -294,7 +358,7 @@ int PML_solver::sub_element_T6()
     double e3 = V_coeff(4);
     double f3 = V_coeff(5);
     
-    V.zeros(6);
+    V.zeros();
     V(3) = 1;
     V_coeff = arma::solve(C_coeff, V);
     
@@ -305,7 +369,7 @@ int PML_solver::sub_element_T6()
     double e4 = V_coeff(4);
     double f4 = V_coeff(5);
     
-    V.zeros(6);
+    V.zeros();
     V(4) = 1;
     V_coeff = arma::solve(C_coeff, V);
     
@@ -316,7 +380,7 @@ int PML_solver::sub_element_T6()
     double e5 = V_coeff(4);
     double f5 = V_coeff(5);
     
-    V.zeros(6);
+    V.zeros();
     V(5) = 1;
     V_coeff = arma::solve(C_coeff, V);
     
@@ -465,23 +529,23 @@ int PML_solver::sub_element_T6()
         double etilde_6 = V_coeff_tile(4);
         double ftilde_6 = V_coeff_tile(5);
         
-        mat M_K2e = zeros(12,12);
-        mat M_Ke  = zeros(12,12);
-        mat M_Me  = zeros(12,12);
+        mat M_K2e = zeros<mat>(12,12);
+        mat M_Ke  = zeros<mat>(12,12);
+        mat M_Me  = zeros<mat>(12,12);
         
-        mat M_De  = zeros(12,12);
-        mat M_He  = zeros(12,12);
-        mat M_D0e = zeros(12,12);
+        mat M_De  = zeros<mat>(12,12);
+        mat M_He  = zeros<mat>(12,12);
+        mat M_D0e = zeros<mat>(12,12);
         
-        mat M_Me_tilde = zeros(18,18);
-        mat M_De_tilde = zeros(18,18);
-        mat M_Ke_tilde = zeros(18,18);
+        mat M_Me_tilde = zeros<mat>(18,18);
+        mat M_De_tilde = zeros<mat>(18,18);
+        mat M_Ke_tilde = zeros<mat>(18,18);
         
-        mat M_K1e_tilde = zeros(12,18);
-        mat M_H1e_tilde = zeros(12,18);
+        mat M_K1e_tilde = zeros<mat>(12,18);
+        mat M_H1e_tilde = zeros<mat>(12,18);
         
-        mat M_K1e = zeros(18,12);
-        mat M_D1e = zeros(18,12);
+        mat M_K1e = zeros<mat>(18,12);
+        mat M_D1e = zeros<mat>(18,12);
         
         for(int p = 0; p<Np; p++)
         {
@@ -496,15 +560,19 @@ int PML_solver::sub_element_T6()
             double E5Yp = a5 + b5*Yp(0) + c5*Yp(1) + d5*Yp(0)*Yp(0) + e5*Yp(1)*Yp(1) + f5*Yp(0)*Yp(1);
             double E6Yp = a6 + b6*Yp(0) + c6*Yp(1) + d6*Yp(0)*Yp(0) + e6*Yp(1)*Yp(1) + f6*Yp(0)*Yp(1);
             
-            mat M_EYp =
-            {
-                { E1Yp ,    0, E2Yp,    0, E3Yp, 0   , E4Yp,    0, E5Yp,    0, E6Yp,    0 },
-                {    0 , E1Yp,    0, E2Yp,    0, E3Yp,    0, E4Yp,    0, E5Yp,    0, E6Yp }
-            } ;
+            mat M_EYp(2,12);
+            
+            M_EYp.cols(0 , 1) = E1Yp*M_I2;
+            M_EYp.cols(2 , 3) = E2Yp*M_I2;
+            M_EYp.cols(4 , 5) = E3Yp*M_I2;
+            M_EYp.cols(6 , 7) = E4Yp*M_I2;
+            M_EYp.cols(8 , 9) = E5Yp*M_I2;
+            M_EYp.cols(10,11) = E6Yp*M_I2 ;
             
             vec Xp = M_EYp * Xe ;
             
-            mat M_E_PML_Xp(3,18), M_EXp(2,12);
+            mat M_E_PML_Xp(3,18);
+            mat M_EXp(2,12);
             
             {
                 double E1Xp = atilde_1 + btilde_1*Xp(0) + ctilde_1*Xp(1)
@@ -525,7 +593,7 @@ int PML_solver::sub_element_T6()
                 double E6Xp = atilde_6 + btilde_6*Xp(0) + ctilde_6*Xp(1)
                 + dtilde_6*Xp(0)*Xp(0) + etilde_6*Xp(1)*Xp(1) + ftilde_6*Xp(0)*Xp(1);
                 
-                M_E_PML_Xp.cols(0 ,  2) = E1Xp*M_I3;
+                M_E_PML_Xp.cols(0,  2) = E1Xp*M_I3;
                 M_E_PML_Xp.cols(3 ,  5) = E2Xp*M_I3;
                 M_E_PML_Xp.cols(6 ,  8) = E3Xp*M_I3;
                 M_E_PML_Xp.cols(9 , 11) = E4Xp*M_I3;
@@ -592,11 +660,10 @@ int PML_solver::sub_element_T6()
                 vec Phi1 = A1*Xe1 + A2*Xe2 +  A3*Xe3  + A4*Xe4 + A5*Xe5 + A6*Xe6;
                 vec Phi2 = B1*Xe1 + B2*Xe2 +  B3*Xe3  + B4*Xe4 + B5*Xe5 + B6*Xe6;
                 
-                mat Mat_J(2,2);
-                Mat_J.col(0) = Phi1;
-                Mat_J.col(1) = Phi2;
-                JeYp = det(Mat_J) ;
+                mat Mat_J;
+                Mat_J = join_horiz(Phi1, Phi2) ;
                 
+                JeYp = det(Mat_J);
                 if (JeYp < 0)
                 {
                     cout << endl << "Jacobian is negative" << endl ;
@@ -651,7 +718,7 @@ int PML_solver::sub_element_T6()
             
             mat M_Ae =
             {
-                { Lambda+2*Mu, Lambda      ,0       },
+                { Lambda+2*Mu, Lambda      , 0      },
                 { Lambda     , Lambda+2*Mu , 0      },
                 { 0          , 0           , 4.f*Mu }
             };
@@ -718,7 +785,6 @@ int PML_solver::sub_element_T6()
         T_I_21.slice(e) = repmat( T_Nek_PML ,  1, 12);
         T_J_21.slice(e) = repmat( T_Nek.t() , 18,  1);
         
-        
         T_K2.slice(e) = M_K2e;
         T_M .slice(e) = M_Me ;
         T_D .slice(e) = M_De ;
@@ -737,43 +803,42 @@ int PML_solver::sub_element_T6()
         T_D1.slice(e) = M_D1e;
         
     }
+    urowvec vec_T_I_11(T_I_11.memptr(),Ne*12*12,false);
+    urowvec vec_T_J_11(T_J_11.memptr(),Ne*12*12,false);
     
-    urowvec vec_T_I_11(T_I_11.memptr(),T_I_11.n_elem,false);
-    urowvec vec_T_J_11(T_J_11.memptr(),T_J_11.n_elem,false);
+    urowvec vec_T_I_22(T_I_22.memptr(),Ne*18*18,false);
+    urowvec vec_T_J_22(T_J_22.memptr(),Ne*18*18,false);
     
-    urowvec vec_T_I_22(T_I_22.memptr(),T_I_22.n_elem,false);
-    urowvec vec_T_J_22(T_J_22.memptr(),T_J_22.n_elem,false);
+    urowvec vec_T_I_12(T_I_12.memptr(),Ne*12*18,false);
+    urowvec vec_T_J_12(T_J_12.memptr(),Ne*12*18,false);
     
-    urowvec vec_T_I_12(T_I_12.memptr(),T_I_12.n_elem,false);
-    urowvec vec_T_J_12(T_J_12.memptr(),T_J_12.n_elem,false);
-    
-    urowvec vec_T_I_21(T_I_21.memptr(),T_I_21.n_elem,false);
-    urowvec vec_T_J_21(T_J_21.memptr(),T_J_21.n_elem,false);
+    urowvec vec_T_I_21(T_I_21.memptr(),Ne*18*12,false);
+    urowvec vec_T_J_21(T_J_21.memptr(),Ne*18*12,false);
     
     umat Location_11 = join_vert(vec_T_I_11, vec_T_J_11) ;
     umat Location_22 = join_vert(vec_T_I_22, vec_T_J_22) ;
     umat Location_12 = join_vert(vec_T_I_12, vec_T_J_12) ;
     umat Location_21 = join_vert(vec_T_I_21, vec_T_J_21) ;
     
-    vec vec_K2(T_K2.memptr(),T_K2.n_elem,false);
-    vec vec_M (T_M .memptr(),T_M .n_elem,false);
-    vec vec_D( T_D .memptr(),T_D .n_elem,false);
-    vec vec_D0(T_D0.memptr(),T_D0.n_elem,false);
-    vec vec_K (T_K .memptr(),T_K .n_elem,false);
-    vec vec_H (T_K2.memptr(),T_H .n_elem,false);
+    vec vec_K2(T_K2.memptr(),Ne*12*12,false);
+    vec vec_M (T_M .memptr(),Ne*12*12,false);
+    vec vec_D( T_D .memptr(),Ne*12*12,false);
+    vec vec_D0(T_D0.memptr(),Ne*12*12,false);
+    vec vec_K (T_K .memptr(),Ne*12*12,false);
+    vec vec_H (T_K2.memptr(),Ne*12*12,false);
     
-    vec vec_H1_tilde(T_H1_tilde.memptr(),T_H1_tilde.n_elem,false);
-    vec vec_K1_tilde(T_K1_tilde.memptr(),T_K1_tilde.n_elem,false);
+    vec vec_H1_tilde(T_H1_tilde.memptr(),Ne*12*18,false);
+    vec vec_K1_tilde(T_K1_tilde.memptr(),Ne*12*18,false);
     
-    vec vec_K_tilde(T_K_tilde.memptr(),T_K_tilde.n_elem,false);
-    vec vec_M_tilde(T_M_tilde.memptr(),T_M_tilde.n_elem,false);
-    vec vec_D_tilde(T_D_tilde.memptr(),T_D_tilde.n_elem,false);
+    vec vec_K_tilde(T_K_tilde.memptr(),Ne*18*18,false);
+    vec vec_M_tilde(T_M_tilde.memptr(),Ne*18*18,false);
+    vec vec_D_tilde(T_D_tilde.memptr(),Ne*18*18,false);
     
-    vec vec_K1(T_K1.memptr(),T_K1.n_elem,false);
-    vec vec_D1(T_D1.memptr(),T_D1.n_elem,false);
+    vec vec_K1(T_K1.memptr(),Ne*18*12,false);
+    vec vec_D1(T_D1.memptr(),Ne*18*12,false);
     
     M_K2 = sp_mat( true, Location_11, vec_K2, 2*Nn, 2*Nn);
-    M_M  = sp_mat( true, Location_11, vec_H , 2*Nn, 2*Nn);
+    M_M  = sp_mat( true, Location_11, vec_M , 2*Nn, 2*Nn);
     M_D  = sp_mat( true, Location_11, vec_D , 2*Nn, 2*Nn);
     M_D0 = sp_mat( true, Location_11, vec_D0, 2*Nn, 2*Nn);
     M_K  = sp_mat( true, Location_11, vec_K , 2*Nn, 2*Nn);
@@ -799,12 +864,12 @@ void PML_solver::sub_fixed_dof()
     num_ddl_u = 0;
     num_ddl_E = 0;
     
-    vec T_IDDL_U(2*Nn);
-    vec T_IDDL_E(3*Nn);
-    urowvec T_I_U(2*Nn);
-    urowvec T_J_U(2*Nn);
-    urowvec T_I_E(3*Nn);
-    urowvec T_J_E(3*Nn);
+    vec T_IDDL_U(2*Nn,fill::zeros);
+    vec T_IDDL_E(3*Nn,fill::zeros);
+    urowvec T_I_U(2*Nn,fill::zeros);
+    urowvec T_J_U(2*Nn,fill::zeros);
+    urowvec T_I_E(3*Nn,fill::zeros);
+    urowvec T_J_E(3*Nn,fill::zeros);
     
     
     for(int k =0; k< Nn; k++)
@@ -861,7 +926,6 @@ void PML_solver::sub_fixed_dof()
     umat Location_U = join_vert(T_I_U, T_J_U) ;
     M_DDL_U = sp_mat( Location_U, T_IDDL_U, 2*Nn, num_ddl_u);
     
-    sp_mat M_DDL_E(3*Nn ,num_ddl_E);
     umat Location_E = join_vert(T_I_E, T_J_E) ;
     M_DDL_E = sp_mat( Location_E, T_IDDL_E, 3*Nn, num_ddl_E);
     
@@ -878,13 +942,10 @@ void PML_solver::sub_fixed_dof()
     M_M_tilde = M_DDL_E.t() * M_M_tilde * M_DDL_E;
     M_D_tilde = M_DDL_E.t() * M_D_tilde * M_DDL_E;
     
+    M_K1 = M_DDL_E.t() * M_K1 * M_DDL_U ;
+    M_D1 = M_DDL_E.t() * M_D1 * M_DDL_U ;
     
-    M_K1 = (M_DDL_E.t() * M_K1 * M_DDL_U ).eval();
-    M_D1 = (M_DDL_E.t() * M_D1 * M_DDL_U ).eval();
-    
-    
-    V_F = (M_DDL_U.t() * V_F).eval();
-
+    V_F = M_DDL_U.t() * V_F;
 }
 
 void PML_solver::set_external_force_parameters()
@@ -979,7 +1040,7 @@ void PML_solver::set_matrix_system()
         if (Icase == 3)
             M_K_dyn += omega *  sp_cx_mat( sp_mat(num_ddl_u,num_ddl_u), M_D) ;
         
-        V_F_pml_complex = cx_vec( zeros<vec>(num_ddl_u) ,V_F);
+        V_F_pml_complex = cx_vec( V_F , zeros<vec>(num_ddl_u));
     }
     
     if (Icase == 4 || Icase == 6)
@@ -1010,7 +1071,23 @@ void PML_solver::set_matrix_system()
         if (Icase == 2)
         {
             M_K_dyn =   sp_cx_mat( M_Kglob - (omega * omega) * M_Mglob ,  omega * M_Dglob  -1.f/omega * M_Hglob );
-            V_F_pml_complex =  cx_double(0,0) + M_Ind1.t() * V_F ;
+            V_F_pml_complex =  cx_vec ( M_Ind1.t() * V_F, vec(num_ddl_u + num_ddl_E, fill::zeros) ) ;
+            
+            if (settings.debug & DEBUG_PRINT_GLOBAL_MATRICES)
+            {
+                save_sp2ascii(M_K_dyn, "matlab/DATA_K_dyn.ascii");
+                save_sp2ascii(M_DDL_U, "matlab/DATA_M_DDL_U.ascii");
+                save_sp2ascii(M_DDL_E, "matlab/DATA_M_DDL_E.ascii");
+                
+                save_vec2ascii(V_F_pml_complex, "matlab/DATA_V_F_pml_complex.ascii");
+                
+                save_mat2ascii(  Table_Noeuds, "matlab/Table_Noeuds.ascii");
+                save_mat2ascii(Table_Elements, "matlab/Table_Elements.ascii");
+                
+                save_int2ascii(num_ddl_u, "matlab/num_ddl_u.ascii");
+                save_int2ascii(num_ddl_E, "matlab/num_ddl_E.ascii");
+            }
+
         }
         else
         {
