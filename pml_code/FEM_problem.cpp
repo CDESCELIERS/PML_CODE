@@ -215,8 +215,11 @@ int FEM_problem::read_cfg(string CONFIG_FILE)
                 return -1;
             }
             
-            Vector4d parameters;
-            parameters << E, v, rho, Xi ;
+            vec parameters =
+            {
+                E, v, rho, Xi
+            };
+            
             settings.Mat[case_mat] = parameters ;
             
         }

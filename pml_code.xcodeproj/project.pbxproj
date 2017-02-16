@@ -13,7 +13,6 @@
 		BE55E9D61E4B37D500EB5E1D /* tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE55E9D01E4B37D500EB5E1D /* tools.cpp */; };
 		BE55E9D71E4B37D500EB5E1D /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE55E9D11E4B37D500EB5E1D /* Tokenizer.cpp */; };
 		BEC684281E51E31300241AB7 /* umfpack_wrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC684261E51E31300241AB7 /* umfpack_wrapper.cpp */; };
-		BEC6842A1E52399700241AB7 /* FEM_type.hpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC684291E52399700241AB7 /* FEM_type.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,7 +47,6 @@
 		BEC684251E5114F600241AB7 /* avi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = avi; sourceTree = "<group>"; };
 		BEC684261E51E31300241AB7 /* umfpack_wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = umfpack_wrapper.cpp; sourceTree = "<group>"; };
 		BEC684271E51E31300241AB7 /* umfpack_wrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = umfpack_wrapper.hpp; sourceTree = "<group>"; };
-		BEC684291E52399700241AB7 /* FEM_type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FEM_type.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				BEC684271E51E31300241AB7 /* umfpack_wrapper.hpp */,
-				BEC684291E52399700241AB7 /* FEM_type.hpp */,
 				BE55E9CB1E4B37D500EB5E1D /* PML_solver.hpp */,
 				BE55E9CD1E4B37D500EB5E1D /* FEM_problem.hpp */,
 				BE55E9CF1E4B37D500EB5E1D /* tools.hpp */,
@@ -182,7 +179,6 @@
 				BE55E9D41E4B37D500EB5E1D /* PML_solver.cpp in Sources */,
 				BE55E9D31E4B37D500EB5E1D /* FEM_problem.cpp in Sources */,
 				BE55E9D61E4B37D500EB5E1D /* tools.cpp in Sources */,
-				BEC6842A1E52399700241AB7 /* FEM_type.hpp in Sources */,
 				BE55E9D71E4B37D500EB5E1D /* Tokenizer.cpp in Sources */,
 				BEC684281E51E31300241AB7 /* umfpack_wrapper.cpp in Sources */,
 			);
@@ -283,18 +279,19 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = L93GJNLR83;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/Cellar/open-mesh/6.3/include/",
-					/usr/local/Cellar/eigen/3.3.1/include/,
 					"/usr/local/Cellar/suite-sparse/4.5.3/include/",
 					/usr/local/Cellar/libconfig/1.6/include/,
+					/usr/local/Cellar/armadillo/7.600.2/include/,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/usr/local/Cellar/suite-sparse/4.5.3/lib/",
 					/usr/local/Cellar/libconfig/1.6/lib,
+					/usr/local/Cellar/armadillo/7.600.2/lib/,
 				);
 				OTHER_LDFLAGS = (
 					"-lumfpack",
 					"-lconfig++",
+					"-larmadillo",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -306,18 +303,19 @@
 				DEVELOPMENT_TEAM = L93GJNLR83;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/Cellar/open-mesh/6.3/include/",
-					/usr/local/Cellar/eigen/3.3.1/include/,
 					"/usr/local/Cellar/suite-sparse/4.5.3/include/",
 					/usr/local/Cellar/libconfig/1.6/include/,
+					/usr/local/Cellar/armadillo/7.600.2/include/,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/usr/local/Cellar/suite-sparse/4.5.3/lib/",
 					/usr/local/Cellar/libconfig/1.6/lib,
+					/usr/local/Cellar/armadillo/7.600.2/lib/,
 				);
 				OTHER_LDFLAGS = (
 					"-lumfpack",
 					"-lconfig++",
+					"-larmadillo",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

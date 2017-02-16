@@ -9,7 +9,8 @@
 #ifndef umfpack_wrapper_hpp
 #define umfpack_wrapper_hpp
 
-#include "FEM_type.hpp"
+#include <armadillo>
+
 
 namespace FEM
 {
@@ -28,13 +29,13 @@ namespace FEM
     public:
         ~umfpack_wrapper();
         
-        umfpack_wrapper(SP_mat_complex &MAT);
+        umfpack_wrapper(arma::sp_cx_mat &MAT);
         
-        umfpack_wrapper(SP_mat &MAT);
+        umfpack_wrapper(arma::sp_mat &MAT);
         
-        Eigen::VectorXcd solve(Eigen::VectorXcd &F);
+        arma::cx_vec solve(arma::cx_vec &F);
         
-        Eigen::VectorXd solve(Eigen::VectorXd &F);
+        arma::vec solve(arma::vec &F);
         
     };
 
