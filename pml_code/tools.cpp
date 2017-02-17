@@ -41,3 +41,83 @@ void printProgress (double percentage)
 }
 
 
+
+
+void FEM::save_sp2ascii(SP_mat &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.outerSize(); ++k)
+        for (SP_mat::InnerIterator it(MAT,k); it; ++it)
+            fid<< it.value() << " " <<  it.row()+1 << " " << it.col()+1<< endl;
+    fid.close();
+}
+
+void FEM::save_sp2ascii(SP_mat_complex &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.outerSize(); ++k)
+        for (SP_mat_complex::InnerIterator it(MAT,k); it; ++it)
+            fid<< it.value().real() << " " <<  it.value().imag() << " " << it.row()+1 << " " << it.col()+1<< endl;
+    fid.close();
+}
+
+void FEM::save_vec2ascii(VectorXcd &VEC, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << VEC.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<VEC.size(); ++k)
+        fid<< VEC(k).real() << " " <<  VEC(k).imag() << endl ;
+    fid.close();
+}
+
+void FEM::save_vec2ascii(VectorXd &VEC, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << VEC.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<VEC.size(); ++k)
+        fid<< VEC(k) << endl ;
+    fid.close();
+}
+
+void FEM::save_mat2ascii(Matrix<unsigned,Dynamic,7> &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.rows(); ++k)
+    {
+        for(int j=0; j<MAT.cols();++j)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+void FEM::save_mat2ascii(Matrix<double,2, Dynamic> &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.rows(); ++k)
+    {
+        for(int j=0; j<MAT.cols();++j)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+
+void FEM::save_int2ascii(int value, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " 1 non zero" << endl;
+    fid<< value <<  endl;    fid.close();
+}
+
+
