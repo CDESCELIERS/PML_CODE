@@ -5,8 +5,13 @@
 #include "tools.hpp"
 #include <chrono>
 #include <iostream>
+#include <fstream>
+#include <eigen3/Eigen/Dense>
 
 using namespace std;
+using namespace FEM;
+using namespace Eigen;
+
 
 /* -------------------------
  
@@ -43,7 +48,7 @@ void printProgress (double percentage)
 
 
 
-void FEM::save_sp2ascii(SP_mat &MAT, string filename)
+void save_sp2ascii(SP_mat &MAT, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -54,7 +59,7 @@ void FEM::save_sp2ascii(SP_mat &MAT, string filename)
     fid.close();
 }
 
-void FEM::save_sp2ascii(SP_mat_complex &MAT, string filename)
+void save_sp2ascii(SP_mat_complex &MAT, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -65,7 +70,7 @@ void FEM::save_sp2ascii(SP_mat_complex &MAT, string filename)
     fid.close();
 }
 
-void FEM::save_vec2ascii(VectorXcd &VEC, string filename)
+void save_vec2ascii(VectorXcd &VEC, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -75,7 +80,7 @@ void FEM::save_vec2ascii(VectorXcd &VEC, string filename)
     fid.close();
 }
 
-void FEM::save_vec2ascii(VectorXd &VEC, string filename)
+void save_vec2ascii(VectorXd &VEC, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -85,20 +90,7 @@ void FEM::save_vec2ascii(VectorXd &VEC, string filename)
     fid.close();
 }
 
-void FEM::save_mat2ascii(Matrix<unsigned,Dynamic,7> &MAT, string filename)
-{
-    ofstream fid;
-    fid.open (filename,ios::out);
-    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
-    for (int k=0; k<MAT.rows(); ++k)
-    {
-        for(int j=0; j<MAT.cols();++j)
-            fid<< MAT(k,j) << " " ;
-        fid << endl;
-    }
-    fid.close();
-}
-void FEM::save_mat2ascii(Matrix<double,2, Dynamic> &MAT, string filename)
+void save_mat2ascii(Matrix<unsigned,Dynamic,7> &MAT, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);
@@ -112,7 +104,21 @@ void FEM::save_mat2ascii(Matrix<double,2, Dynamic> &MAT, string filename)
     fid.close();
 }
 
-void FEM::save_int2ascii(int value, string filename)
+void save_mat2ascii(Matrix<double,2, Dynamic> &MAT, string filename)
+{
+    ofstream fid;
+    fid.open (filename,ios::out);
+    cout << filename << " " << MAT.nonZeros() <<  " non zeros" << endl;
+    for (int k=0; k<MAT.rows(); ++k)
+    {
+        for(int j=0; j<MAT.cols();++j)
+            fid<< MAT(k,j) << " " ;
+        fid << endl;
+    }
+    fid.close();
+}
+
+void save_int2ascii(int value, string filename)
 {
     ofstream fid;
     fid.open (filename,ios::out);

@@ -114,9 +114,7 @@ namespace FEM
         void save_vtk_random();   // TO DO
         
     public:
-        
-        PML_solver();
-        
+    
         void set_settings(config_settings settings);
         int read_mesh();
         int  sub_element_T6();

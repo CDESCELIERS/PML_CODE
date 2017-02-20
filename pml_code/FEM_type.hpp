@@ -9,7 +9,7 @@
 #include <eigen3/Eigen/Sparse>
 
 #ifndef FEM_type_hpp
-#define FM_type_hpp
+#define FEM_type_hpp
 
 
 namespace FEM
